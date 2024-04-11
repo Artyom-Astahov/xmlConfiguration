@@ -8,6 +8,7 @@ import jakarta.annotation.PreDestroy;
 import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -17,8 +18,14 @@ import org.springframework.stereotype.Repository;
 public class UserRepository {
     @Autowired
     private ConnectionPool connectionPool;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-    public UserRepository(ConnectionPool connectionPool) {
+    public UserRepository(ConnectionPool connectionPool, ApplicationEventPublisher applicationEventPublisher) {
         this.connectionPool = connectionPool;
+        this.applicationEventPublisher = applicationEventPublisher;
+    }
+
+    public void create(){
+
     }
 }
