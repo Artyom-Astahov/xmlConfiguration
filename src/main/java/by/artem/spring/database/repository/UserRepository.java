@@ -1,28 +1,24 @@
 package by.artem.spring.database.repository;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import by.artem.spring.database.repository.bpp.InjectBean;
+import by.artem.spring.database.repository.pool.ConnectionPool;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
 import lombok.ToString;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
+@Repository
 @ToString
+@Profile({"prod", "test"})
 public class UserRepository {
-    private String userName;
-    private int poolSize;
-    private List<Object> args;
-    private Map<String, Object> properties;
+    @Autowired
+    private ConnectionPool connectionPool;
 
-    public void init(){
-        System.out.println("init UserRepository");
+    public UserRepository(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
     }
-
-    public void destroy(){
-        System.out.println("destroy UserRepository");
-    }
-
 }

@@ -6,44 +6,15 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-<!--    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
-<!--        <property name="location" value="classpath:application.properties"/>-->
-<!--    </bean>-->
 
-    <context:property-placeholder location="application.properties"/>
+<!--    <context:component-scan base-package="by.artem.spring"/>-->
+<!--    <context:annotation-config/>-->
+<!--    <context:property-placeholder location="application.properties"/>-->
+<!--    <bean class="by.artem.spring.database.repository.config.ApplicationConfiguration"/>-->
 
 
-    <bean id="repo1" name="userRepository" class="by.artem.spring.database.repository.UserRepository" init-method="init" destroy-method="destroy">
-        <constructor-arg name="userName" value="${db.username}"/>
-        <constructor-arg name="poolSize" value="${db.pool.size}"/>
-        <constructor-arg name="args">
-            <list>
-                <value>1</value>
-                <value>2</value>
-                <value>3</value>
-            </list>
-        </constructor-arg>
-        <constructor-arg name="properties">
-            <map>
-                <entry key="user" value="Artem"/>
-                <entry key="address" value="Ryazan"/>
-            </map>
-        </constructor-arg>
-    </bean>
-    <bean id="repo2" class="by.artem.spring.database.repository.UserRepository">
-        <property name="userName" value="driver"/>
-    </bean>
 
-    <bean name="userDto" class="by.artem.spring.dto.UserDto" scope="prototype"/>
 
-    <bean name="userMapper" class="by.artem.spring.mapper.UserMapper">
-        <constructor-arg ref="userDto"/>
-    </bean>
-
-    <bean name="userService" class="by.artem.spring.service.UserService">
-        <constructor-arg name="userMapper" ref="userMapper"/>
-        <constructor-arg name="userRepository" ref="userRepository"/>
-    </bean>
 
 
 
