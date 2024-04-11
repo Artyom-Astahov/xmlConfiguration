@@ -16,20 +16,4 @@
 
 
 
-
-
-    <bean name="companyRepository" class="by.artem.spring.database.repository.CompanyRepository">
-        <constructor-arg name="name" value="Google"/>
-    </bean>
-
-    <bean name="companyDto" class="by.artem.spring.dto.CompanyDto"/>
-    <bean name="companyMapper" class="by.artem.spring.mapper.CompanyMapper">
-        <constructor-arg ref="companyDto"/>
-    </bean>
-    <bean name="companyService" class="by.artem.spring.service.CompanyService">
-        <constructor-arg name="companyMapper" ref="companyMapper"/>
-        <constructor-arg name="companyRepository" ref="companyRepository"/>
-    </bean>
-
-
 </beans>
