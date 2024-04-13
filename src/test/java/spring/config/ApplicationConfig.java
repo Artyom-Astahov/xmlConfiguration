@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.*;
 
 @Configuration
-@Profile("test")
 public class ApplicationConfig {
 
     @Bean

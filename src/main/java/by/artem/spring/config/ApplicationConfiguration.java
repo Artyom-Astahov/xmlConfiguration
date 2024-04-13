@@ -24,25 +24,12 @@ public class ApplicationConfiguration {
         return new ConnectionPool(username, password, poolSize, url);
     }
 
-    @Bean
-    public UserRepository userRepository(ConnectionPool connectionPool, ApplicationEventPublisher applicationEventPublisher) {
-        return new UserRepository(connectionPool, applicationEventPublisher);
-    }
 
-    @Bean
-    public UserService userService(UserMapper userMapper, UserRepository userRepository, ApplicationEventPublisher applicationEventPublisher) {
-        return new UserService(userMapper, userRepository, applicationEventPublisher);
-    }
 
-    @Bean
-    public UserCreateDto userCreateDto(){
-        return new UserCreateDto(user());
 
-    }
 
-    @Bean User user(){
-        return new User(1, "Artem");
-    }
+
+
 
 
 }

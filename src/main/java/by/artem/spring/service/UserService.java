@@ -1,5 +1,6 @@
 package by.artem.spring.service;
 
+import by.artem.spring.database.entity.Company;
 import by.artem.spring.database.repository.UserRepository;
 
 import by.artem.spring.dto.UserCreateDto;
@@ -7,6 +8,7 @@ import by.artem.spring.listener.AccessType;
 import by.artem.spring.listener.AfterEntityEvent;
 import by.artem.spring.listener.BeforeEntityEvent;
 import by.artem.spring.mapper.UserMapper;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +29,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public Optional<UserCreateDto> create(UserCreateDto userCreateDto){
-        log.info("Создание нового User");
-        applicationEventPublisher.publishEvent(new BeforeEntityEvent(this, AccessType.CREATE));
-        return userRepository.create(userCreateDto.user().id(), userCreateDto.user().name()).map(entity -> {
-            applicationEventPublisher.publishEvent(new AfterEntityEvent(entity, AccessType.CREATE));
-            return new UserCreateDto(entity);
-        });
-    }
+
+
 }

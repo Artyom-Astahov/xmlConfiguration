@@ -1,34 +1,34 @@
 package by.artem.spring.database.repository;
 
 import by.artem.spring.database.entity.Company;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
-@Repository
-public class CompanyRepository {
 
-    public Optional<Company> findById(Integer id) {
-        System.out.println("CompanyRepository findById method");
-        return Optional.of(new Company(id));
-    }
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
-    public Optional<Company> update(Integer id) {
-        System.out.println("CompanyRepository update method");
-        return Optional.of(new Company(id));
-    }
+    @Query(
+            "select c from Company c " +
+                    "join fetch c.locales cl " +
+                    "where c.name = :name"
+    )
+    Optional<Company> findByName(String name);
 
-    public Optional<Company> create(Integer id) {
-        System.out.println("CompanyRepository create method");
-        return Optional.of(new Company(id));
-    }
+    List<Company> findAllByNameContainingIgnoreCase(String fragment);
 
-    public void delete(Integer id) {
-        System.out.println("CompanyRepository delete method");
 
-    }
+    @Modifying(clearAutomatically = true)
+    @Query("update Company c set c.name = :name where c.id = :id")
+    Integer updateCompanyNameById(Integer id, String name);
+
+    void deleteCompanyByNameContaining(Character symbol);
+
+
+
+
+
 }

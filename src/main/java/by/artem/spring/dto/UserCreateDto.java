@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Component
-public record UserCreateDto(User user) {
+public record UserCreateDto() {
 
 }
