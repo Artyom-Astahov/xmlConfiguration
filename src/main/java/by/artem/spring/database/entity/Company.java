@@ -15,7 +15,6 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString
 @Entity
 public class Company implements BaseEntity<Integer> {
     @Id

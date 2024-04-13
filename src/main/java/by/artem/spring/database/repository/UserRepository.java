@@ -31,25 +31,37 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository  extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findFirstBy(Sort sort);
+
     Page<User> findAllBy(Pageable pageable);
 
     @Query(
             "select u from User u " +
-            "where u.firstname like %:firstname% " +
-            "and u.lastname like %:lastname%"
+                    "where u.firstname like %:firstname% " +
+                    "and u.lastname like %:lastname%"
     )
     List<User> findAllByFirstnameContainingAndLastnameContaining(String firstname, String lastname);
 
 
     @Query(value = "select u.firstname, u.lastname,  u.birth_date from users u " +
             "where company_id = :companyId",
-    nativeQuery = true)
+            nativeQuery = true)
     List<IPersonalInfo> findAllByCompanyId(Integer companyId);
 
-    List<User> findByRoleAndBirthDateBetween(Role role , LocalDate start, LocalDate end);
+    List<User> findByRoleAndBirthDateBetween(Role role, LocalDate start, LocalDate end);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM users u limit 4")
+    List<User> findFirst4By();
+
+    @Query("select u from User u")
+    List<User> findAllBy(Sort sort);
+
+    @Query(
+            "select u from User u " +
+            "where u.role = ?1"
+    )
+    List<User> findAllByRole(Role role, Pageable pageable);
 
 }

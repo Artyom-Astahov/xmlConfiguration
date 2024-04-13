@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "users")
-@ToString(exclude = {"company", "userChats"} )
+//@ToString(exclude = {"company", "userChats"})
 public class User implements BaseEntity<Long> {
 
     @Id
