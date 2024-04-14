@@ -1,11 +1,11 @@
 package by.artem.spring.database.repository.pool;
 
-import by.artem.spring.database.repository.bpp.InjectBean;
+
 import jakarta.annotation.PostConstruct;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;

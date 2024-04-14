@@ -4,20 +4,10 @@ db:
   driver: PostgresDriver
   url: jdbc:postgresql://localhost:5432/springdata
   hosts: localhost,127.0.0.1
-  properties:
-    first: 1
-    last: 2
-    key: value
   pool:
     size: 10
     timeout: 20
-  pools:
-    - size: 10
-      timeout: 20
-    - size: 10
-      timeout: 20
-    - size: 10
-      timeout: 20
+
 
 
 logging:

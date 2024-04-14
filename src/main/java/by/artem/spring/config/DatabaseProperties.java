@@ -13,9 +13,7 @@ public record DatabaseProperties(String username,
                                  String driver,
                                  String url,
                                  String hosts,
-                                 PoolProperties pool,
-                                 List<PoolProperties> pools,
-                                 Map<String, Object> properties) {
+                                 PoolProperties pool) {
 
     public static record PoolProperties(Integer size,
                                         Integer timeout){
