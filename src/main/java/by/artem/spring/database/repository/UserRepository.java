@@ -6,12 +6,14 @@ import by.artem.spring.database.entity.User;
 
 import by.artem.spring.dto.IPersonalInfo;
 
+import by.artem.spring.dto.UserFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -20,7 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>,
+        FilterUserRepository, QuerydslPredicateExecutor<User> {
 
     Optional<User> findFirstBy(Sort sort);
 
@@ -49,8 +52,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(
             "select u from User u " +
-            "where u.role = ?1"
+                    "where u.role = ?1"
     )
     List<User> findAllByRole(Role role, Pageable pageable);
+
 
 }
