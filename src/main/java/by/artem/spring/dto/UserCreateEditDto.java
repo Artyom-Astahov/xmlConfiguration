@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Value;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -18,8 +19,8 @@ import java.time.LocalDate;
 public class UserCreateEditDto {
     @Email
     String username;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     LocalDate birthDate;
 
     @Size(min = 3, max = 30)
@@ -28,4 +29,5 @@ public class UserCreateEditDto {
     String lastname;
     Role role;
     Integer companyId;
+    MultipartFile image;
 }

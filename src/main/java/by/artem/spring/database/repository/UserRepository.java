@@ -1,6 +1,7 @@
 package by.artem.spring.database.repository;
 
 
+import by.artem.spring.database.entity.Image;
 import by.artem.spring.database.entity.Role;
 import by.artem.spring.database.entity.User;
 
@@ -55,6 +56,9 @@ public interface UserRepository extends JpaRepository<User, Long>,
                     "where u.role = ?1"
     )
     List<User> findAllByRole(Role role, Pageable pageable);
+
+
+
 
 
 }
