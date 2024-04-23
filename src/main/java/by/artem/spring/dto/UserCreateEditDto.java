@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class UserCreateEditDto {
     @Email
     String username;
+    String password;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     LocalDate birthDate;

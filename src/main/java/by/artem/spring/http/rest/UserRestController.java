@@ -87,31 +87,31 @@ public class UserRestController {
                 ? noContent().build()
                 : notFound().build();
     }
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public ImageReadDto addImageToGallery(@RequestBody ImageCreateEditDto imageCreateEditDto){
-        return userService.addImageToGallery(imageCreateEditDto);
-    }
+//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public ImageReadDto addImageToGallery(@RequestBody ImageCreateEditDto imageCreateEditDto){
+//        return userService.addImageToGallery(imageCreateEditDto);
+//    }
 
-    @GetMapping("/{id}/gallery")
-    public List<ImageReadDto> findAllImage(@PathVariable("id") Long id) {
-        return userService.findAllImageByUserId(id);
-    }
+//    @GetMapping("/{id}/gallery")
+//    public List<ImageReadDto> findAllImage(@PathVariable("id") Long id) {
+//        return userService.findAllImageByUserId(id);
+//    }
 
-    @DeleteMapping("/{id}/gallery")
-    public ResponseEntity<?> deleteImage(@PathVariable("id") Long id){
-        return userService.deleteImage(id)
-                ? noContent().build()
-                : notFound().build();
-    }
+//    @DeleteMapping("/{id}/gallery")
+//    public ResponseEntity<?> deleteImage(@PathVariable("id") Long id){
+//        return userService.deleteImage(id)
+//                ? noContent().build()
+//                : notFound().build();
+//    }
 
-    @PutMapping("/{id}/gallery")
-    public ImageReadDto updateImageByImageId(@PathVariable("id") Long id,
-                                             @RequestBody ImageCreateEditDto imageCreateEditDto) {
-
-        return userService.updateImageByImageId(id, imageCreateEditDto)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
+//    @PutMapping("/{id}/gallery")
+//    public ImageReadDto updateImageByImageId(@PathVariable("id") Long id,
+//                                             @RequestBody ImageCreateEditDto imageCreateEditDto) {
+//
+//        return userService.updateImageByImageId(id, imageCreateEditDto)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//    }
 
 
 }

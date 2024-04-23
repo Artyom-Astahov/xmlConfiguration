@@ -13,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +25,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
+
+import static by.artem.spring.database.entity.Role.*;
 
 @Controller
 @RequestMapping("/users")
@@ -30,6 +39,7 @@ public class UserController {
     private final UserService userService;
     private final CompanyService companyService;
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR')")
     @GetMapping
     public String findAll(Model model, UserFilter filter, Pageable pageable) {
 //        model.addAttribute("users", userService.findAll());
@@ -39,14 +49,23 @@ public class UserController {
         return "user/users";
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER', 'OPERATOR')")
     @GetMapping("/{id}")
-    public String findById(@PathVariable("id") Long id, Model model) {
+    public String findById(@PathVariable("id") Long id, Model model,
+                           @CurrentSecurityContext SecurityContext securityContext,
+                           @AuthenticationPrincipal UserDetails userDetails) {
+
         return userService.findById(id)
                 .map(user -> {
-                    model.addAttribute("user", user);
-                    model.addAttribute("roles", Role.values());
-                    model.addAttribute("companies", companyService.findAll());
-                    return "user/user";
+                    if (userDetails.getUsername().contains(user.getUsername()) ||
+                            !(userDetails.getAuthorities().contains(USER))) {
+                        model.addAttribute("user", user);
+                        model.addAttribute("roles", values());
+                        model.addAttribute("companies", companyService.findAll());
+                        return "user/user";
+                    } else {
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+                    }
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -63,24 +82,41 @@ public class UserController {
         return "redirect:/users/" + dto.getId();
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'OPERATOR', 'USER')")
     @PostMapping("/{id}/update")
-    public String update(@PathVariable("id") Long id, @ModelAttribute @Validated UserCreateEditDto user) {
+    public String update(@PathVariable("id") Long id, @ModelAttribute @Validated UserCreateEditDto user,
+                         @AuthenticationPrincipal UserDetails userDetails) {
 
         return userService.update(id, user)
-                .map(it -> "redirect:/users/{id}")
+                .map(it -> {
+                    if (userDetails.getUsername().contains(user.getUsername()) ||
+                            !(userDetails.getAuthorities().contains(USER))) {
+                        return "redirect:/users/{id}";
+                    } else {
+                        throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+                    }
+                })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
-        userService.delete(id);
-        return "redirect:/users";
+    public String delete(@PathVariable("id") Long id,
+                         @AuthenticationPrincipal UserDetails userDetails) {
+
+        if (userDetails.getUsername().contains(userService.findById(id).get().getUsername()) ||
+                !(userDetails.getAuthorities().contains(USER))) {
+            userService.delete(id);
+            return "redirect:/users";
+        } else {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
     }
 
     @GetMapping("/registration")
     public String registration(Model model, @ModelAttribute("user") UserCreateEditDto user) {
         model.addAttribute("user", user);
-        model.addAttribute("roles", Role.values());
+        model.addAttribute("roles", values());
         model.addAttribute("companies", companyService.findAll());
         return "user/registration";
     }

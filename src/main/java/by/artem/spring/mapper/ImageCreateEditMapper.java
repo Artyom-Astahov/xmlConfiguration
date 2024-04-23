@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 @Component
-@RequiredArgsConstructor
 public class ImageCreateEditMapper implements Mapper<ImageCreateEditDto, Image> {
     @Override
     public Image map(ImageCreateEditDto object) {

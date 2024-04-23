@@ -4,6 +4,7 @@ import by.artem.integration.TestApplicationRunner;
 import by.artem.spring.ApplicationRunner;
 import jakarta.transaction.Transactional;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.lang.annotation.ElementType;
@@ -17,5 +18,6 @@ import java.lang.annotation.Target;
 @ActiveProfiles("test")
 @SpringBootTest(classes = {TestApplicationRunner.class, ApplicationRunner.class})
 @Transactional
+@WithMockUser(username = "test@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
 public @interface IT {
 }
