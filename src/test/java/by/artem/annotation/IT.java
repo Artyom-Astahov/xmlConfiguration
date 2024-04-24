@@ -18,6 +18,5 @@ import java.lang.annotation.Target;
 @ActiveProfiles("test")
 @SpringBootTest(classes = {TestApplicationRunner.class, ApplicationRunner.class})
 @Transactional
-@WithMockUser(username = "test@gmail.com", password = "test", authorities = {"ADMIN", "USER"})
 public @interface IT {
 }

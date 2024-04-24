@@ -89,7 +89,7 @@ public class UserController {
 
         return userService.update(id, user)
                 .map(it -> {
-                    if (userDetails.getUsername().contains(user.getUsername()) ||
+                    if (userDetails.getUsername().contains(it.getUsername()) ||
                             !(userDetails.getAuthorities().contains(USER))) {
                         return "redirect:/users/{id}";
                     } else {

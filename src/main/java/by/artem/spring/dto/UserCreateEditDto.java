@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class UserCreateEditDto {
     @Email
     String username;
+
     String password;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -30,5 +31,6 @@ public class UserCreateEditDto {
     String lastname;
     Role role;
     Integer companyId;
+
     MultipartFile image;
 }
